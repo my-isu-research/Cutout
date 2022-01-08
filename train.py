@@ -29,8 +29,7 @@ model_options = ['resnet18', 'wideresnet']
 dataset_options = ['cifar10', 'cifar100', 'svhn']
 
 parser = argparse.ArgumentParser(description='CNN')
-parser.add_argument('--dataset', '-d', default='cifar10',
-                    choices=dataset_options)
+parser.add_argument('--dataset', '-d', default='cifar10')
 parser.add_argument('--model', '-a', default='resnet18',
                     choices=model_options)
 parser.add_argument('--batch_size', type=int, default=128,
@@ -60,7 +59,7 @@ torch.manual_seed(args.seed)
 if args.cuda:
     torch.cuda.manual_seed(args.seed)
 
-test_id = args.dataset + '_' + args.model
+test_id = args.dataset.split("/")[-1] + '_' + args.model
 
 print(args)
 
@@ -69,7 +68,7 @@ if args.cutout:
     train_transform.transforms.append(Cutout(n_holes=args.n_holes, length=args.length))
 
 dataset = args.dataset
-train_dataset, test_dataset = get_train_test_dataset(dataset, transform_train, transform_test)
+train_dataset, test_dataset = get_train_test_dataset(dataset, train_transform, test_transform)
 
 # Data Loader (Input Pipeline)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
@@ -93,6 +92,7 @@ cnn_optimizer = torch.optim.SGD(cnn.parameters(), lr=args.learning_rate,
 
 scheduler = MultiStepLR(cnn_optimizer, milestones=[60, 120, 160], gamma=0.2)
 
+create_dir('logs/', False)
 filename = 'logs/' + test_id + '.csv'
 csv_logger = CSVLogger(args=args, fieldnames=['epoch', 'train_acc', 'test_acc'], filename=filename)
 
