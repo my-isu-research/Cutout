@@ -1,3 +1,6 @@
+## UPDATE
+This code updates the Cutout code to allow training on Medical datasets of Size 224 * 224
+
 # Cutout
 
 This repository contains the code for the paper [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552). 
