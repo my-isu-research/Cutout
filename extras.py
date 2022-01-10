@@ -44,6 +44,7 @@ def get_base_transform(img_size = 32,
     ])
 
     transform_test = transforms.Compose([
+        transforms.RandomCrop(img_size, padding=4),
         transforms.ToTensor(),
         normalize
     ])
