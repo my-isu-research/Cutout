@@ -1,6 +1,4 @@
-# run train.py --dataset cifar10 --model resnet18 --data_augmentation --cutout --length 16
-# run train.py --dataset cifar100 --model resnet18 --data_augmentation --cutout --length 8
-# run train.py --dataset svhn --model wideresnet --learning_rate 0.01 --epochs 160 --cutout --length 20
+# python3 train.py --dataset ../../Datasets/kvasir_224_resized/kvasir --batch_size 2 --epochs 1
 
 import pdb
 import argparse
@@ -189,4 +187,4 @@ for iter in range(args.iterations):
     metrics.extend(test_metrics)
     metrics.extend(train_metrics)
     result_df.loc[len(result_df.index)] = metrics
-    result_df.to_csv(dataset.split("/")[-1] + '.csv')
+    result_df.to_csv('experimental_result_for_cutout.csv')
